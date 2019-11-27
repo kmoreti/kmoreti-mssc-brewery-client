@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BreweryClientTest {
 
     @Autowired
-    BreweryClient client;
+    private BreweryClient client;
 
     @Test
     void getBeerById() {

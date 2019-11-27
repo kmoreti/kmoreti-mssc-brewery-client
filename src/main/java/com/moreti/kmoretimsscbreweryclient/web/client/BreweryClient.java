@@ -10,9 +10,8 @@ import java.net.URI;
 import java.util.UUID;
 
 @Component
-@ConfigurationProperties(value = "km.brewery", ignoreUnknownFields = false)
+@ConfigurationProperties(value = "km.brewery")
 public class BreweryClient {
-    private String apiHost;
     private String beerEndpoint;
     private final RestTemplate restTemplate;
 
@@ -20,27 +19,23 @@ public class BreweryClient {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public void setApiHost(String apiHost) {
-        this.apiHost = apiHost;
-    }
-
     public void setBeerEndpoint(String beerEndpoint) {
         this.beerEndpoint = beerEndpoint;
     }
 
-    public BeerDto getBeerById(UUID id) {
-        return restTemplate.getForObject(apiHost + beerEndpoint + "/" + id, BeerDto.class);
+    public BeerDto getBeerById(UUID uuid) {
+        return restTemplate.getForObject(beerEndpoint + "/" + uuid, BeerDto.class);
     }
 
     public URI saveNewBeer(BeerDto beerDto) {
-        return restTemplate.postForLocation(apiHost + beerEndpoint, beerDto);
+        return restTemplate.postForLocation(beerEndpoint, beerDto);
     }
 
     public void updateBeer(UUID uuid, BeerDto beerDto) {
-        restTemplate.put(apiHost + beerEndpoint + "/" + uuid, beerDto);
+        restTemplate.put(beerEndpoint + "/" + uuid, beerDto);
     }
 
     public void deleteBeer(UUID uuid) {
-        restTemplate.delete(apiHost + beerEndpoint + "/" + uuid);
+        restTemplate.delete(beerEndpoint + "/" + uuid);
     }
 }
